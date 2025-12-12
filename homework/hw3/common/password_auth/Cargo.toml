@@ -1,0 +1,9 @@
+[package]
+name = "password_auth"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+actix-web.workspace = true
+actix-web-httpauth = "~0.8"
+anyhow.workspace = true

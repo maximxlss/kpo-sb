@@ -1,0 +1,10 @@
+[package]
+name = "db"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+anyhow.workspace = true
+uuid.workspace = true
+sqlx = { version = "~0.8", default-features = false, features = ["runtime-tokio", "postgres", "uuid"] }
+

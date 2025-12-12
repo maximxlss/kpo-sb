@@ -1,0 +1,12 @@
+[package]
+name = "healthcheck"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+actix-web.workspace = true
+awc = "~3.8"
+logging = { path = "../logging" }
+tracing.workspace = true
+tracing-subscriber.workspace = true
+anyhow.workspace = true

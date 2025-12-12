@@ -1,0 +1,19 @@
+[package]
+name = "file_storage"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+actix-files = "~0.6"
+actix-multipart = "~0.7"
+actix-web.workspace = true
+anyhow.workspace = true
+db = { path = "../../common/db" }
+healthcheck = { path = "../../common/healthcheck" }
+logging = { path = "../../common/logging" }
+password_auth = { path = "../../common/password_auth" }
+regex = "~1.12"
+serde = "~1.0"
+sha2 = "~0.10"
+uuid.workspace = true
+tracing.workspace = true

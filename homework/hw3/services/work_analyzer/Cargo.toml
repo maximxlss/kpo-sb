@@ -1,0 +1,15 @@
+[package]
+name = "work_analyzer"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+actix-web.workspace = true
+healthcheck = { path = "../../common/healthcheck" }
+logging = { path = "../../common/logging" }
+db = { path = "../../common/db" }
+tracing.workspace = true
+tracing-subscriber.workspace = true
+anyhow.workspace = true
+serde = { version = "~1.0", features = ["derive"] }
+uuid.workspace = true

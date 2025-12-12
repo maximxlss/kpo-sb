@@ -1,0 +1,18 @@
+[workspace]
+resolver = "3"
+members = ["services/*", "common/*", "integration_test"]
+default-members = ["services/*", "common/*"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+
+[workspace.dependencies]
+actix-web = "~4.12"
+anyhow = "~1.0"
+sqlx = { version = "~0.7", default-features = false, features = ["runtime-tokio", "postgres", "uuid"] }
+thiserror = "~1.0"
+tracing = "~0.1"
+tracing-subscriber = { version = "~0.3", features = ["fmt", "env-filter"] }
+tracing-actix-web = "~0.7"
+uuid = { version = "~1.19", features = ["serde"] }

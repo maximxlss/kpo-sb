@@ -1,0 +1,535 @@
+{
+  "info": {
+    "name": "KPO Antiplag APIs",
+    "description": "Public + internal routes for docker-compose defaults.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "routerProtocol",
+      "value": "http",
+      "type": "string"
+    },
+    {
+      "key": "routerHost",
+      "value": "localhost",
+      "type": "string"
+    },
+    {
+      "key": "mainAPIProtocol",
+      "value": "http",
+      "type": "string"
+    },
+    {
+      "key": "mainAPIHost",
+      "value": "localhost",
+      "type": "string"
+    },
+    {
+      "key": "mainAPIPort",
+      "value": "18080",
+      "type": "string"
+    },
+    {
+      "key": "storageProtocol",
+      "value": "http",
+      "type": "string"
+    },
+    {
+      "key": "storageHost",
+      "value": "localhost",
+      "type": "string"
+    },
+    {
+      "key": "storagePort",
+      "value": "18081",
+      "type": "string"
+    },
+    {
+      "key": "analyzerProtocol",
+      "value": "http",
+      "type": "string"
+    },
+    {
+      "key": "analyzerHost",
+      "value": "localhost",
+      "type": "string"
+    },
+    {
+      "key": "analyzerPort",
+      "value": "18082",
+      "type": "string"
+    },
+    {
+      "key": "workId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "accessPassword",
+      "value": "filestorage",
+      "type": "string"
+    },
+    {
+      "key": "fileHash",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Public Routes (via nginx router)",
+      "description": "Public API.",
+      "item": [
+        {
+          "name": "Create work",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{routerProtocol}}://{{routerHost}}/works",
+              "protocol": "{{routerProtocol}}",
+              "host": [
+                "{{routerHost}}"
+              ],
+              "path": [
+                "works"
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": [],
+                  "description": "File"
+                },
+                {
+                  "key": "author_name",
+                  "type": "text",
+                  "value": "alice",
+                  "description": "Author"
+                },
+                {
+                  "key": "assignment_name",
+                  "type": "text",
+                  "value": "math",
+                  "description": "Assignment"
+                },
+                {
+                  "key": "comment",
+                  "type": "text",
+                  "value": "first attempt",
+                  "description": "Comment"
+                }
+              ]
+            },
+            "description": "Create work."
+          },
+          "event": [],
+          "response": []
+        },
+        {
+          "name": "Get report",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{routerProtocol}}://{{routerHost}}/works/{{workId}}/report",
+              "protocol": "{{routerProtocol}}",
+              "host": [
+                "{{routerHost}}"
+              ],
+              "path": [
+                "works",
+                "{{workId}}",
+                "report"
+              ]
+            },
+            "description": "Get report."
+          },
+          "response": []
+        },
+        {
+          "name": "Get word cloud",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{routerProtocol}}://{{routerHost}}/works/{{workId}}/wordcloud",
+              "protocol": "{{routerProtocol}}",
+              "host": [
+                "{{routerHost}}"
+              ],
+              "path": [
+                "works",
+                "{{workId}}",
+                "wordcloud"
+              ]
+            },
+            "description": "Get word cloud (PNG)."
+          },
+          "response": []
+        },
+        {
+          "name": "Download work file",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{routerProtocol}}://{{routerHost}}/works/{{workId}}/download",
+              "protocol": "{{routerProtocol}}",
+              "host": [
+                "{{routerHost}}"
+              ],
+              "path": [
+                "works",
+                "{{workId}}",
+                "download"
+              ]
+            },
+            "description": "Download work file."
+          },
+          "response": []
+        },
+        {
+          "name": "Reanalyze work",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{routerProtocol}}://{{routerHost}}/works/{{workId}}/reanalyze",
+              "protocol": "{{routerProtocol}}",
+              "host": [
+                "{{routerHost}}"
+              ],
+              "path": [
+                "works",
+                "{{workId}}",
+                "reanalyze"
+              ]
+            },
+            "description": "Clear previous results and re-trigger analysis."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Work main API Service (port 18080)",
+      "description": "Direct service access.",
+      "item": [
+        {
+          "name": "Create work",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{mainAPIProtocol}}://{{mainAPIHost}}:{{mainAPIPort}}/works",
+              "protocol": "{{mainAPIProtocol}}",
+              "host": [
+                "{{mainAPIHost}}"
+              ],
+              "port": "{{mainAPIPort}}",
+              "path": [
+                "works"
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": [],
+                  "description": "File"
+                },
+                {
+                  "key": "author_name",
+                  "type": "text",
+                  "value": "alice",
+                  "description": "Author"
+                },
+                {
+                  "key": "assignment_name",
+                  "type": "text",
+                  "value": "math",
+                  "description": "Assignment"
+                },
+                {
+                  "key": "comment",
+                  "type": "text",
+                  "value": "first attempt",
+                  "description": "Comment"
+                }
+              ]
+            },
+            "description": "Create work."
+          },
+          "event": [],
+          "response": []
+        },
+        {
+          "name": "Get report",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{mainAPIProtocol}}://{{mainAPIHost}}:{{mainAPIPort}}/works/{{workId}}/report",
+              "protocol": "{{mainAPIProtocol}}",
+              "host": [
+                "{{mainAPIHost}}"
+              ],
+              "port": "{{mainAPIPort}}",
+              "path": [
+                "works",
+                "{{workId}}",
+                "report"
+              ]
+            },
+            "description": "Get report."
+          },
+          "response": []
+        },
+        {
+          "name": "Get word cloud",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{mainAPIProtocol}}://{{mainAPIHost}}:{{mainAPIPort}}/works/{{workId}}/wordcloud",
+              "protocol": "{{mainAPIProtocol}}",
+              "host": [
+                "{{mainAPIHost}}"
+              ],
+              "port": "{{mainAPIPort}}",
+              "path": [
+                "works",
+                "{{workId}}",
+                "wordcloud"
+              ]
+            },
+            "description": "Get word cloud (PNG)."
+          },
+          "response": []
+        },
+        {
+          "name": "Health check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{mainAPIProtocol}}://{{mainAPIHost}}:{{mainAPIPort}}/healthcheck",
+              "protocol": "{{mainAPIProtocol}}",
+              "host": [
+                "{{mainAPIHost}}"
+              ],
+              "port": "{{mainAPIPort}}",
+              "path": [
+                "healthcheck"
+              ]
+            },
+            "description": "Healthcheck."
+          },
+          "response": []
+        },
+        {
+          "name": "Reanalyze work",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{mainAPIProtocol}}://{{mainAPIHost}}:{{mainAPIPort}}/works/{{workId}}/reanalyze",
+              "protocol": "{{mainAPIProtocol}}",
+              "host": [
+                "{{mainAPIHost}}"
+              ],
+              "port": "{{mainAPIPort}}",
+              "path": [
+                "works",
+                "{{workId}}",
+                "reanalyze"
+              ]
+            },
+            "description": "Clear previous results and re-trigger analysis."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "File Storage Service (port 18081)",
+      "description": "Direct service access.",
+      "item": [
+        {
+          "name": "Upload file",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessPassword}}",
+                "description": "Bearer token"
+              }
+            ],
+            "url": {
+              "raw": "{{storageProtocol}}://{{storageHost}}:{{storagePort}}/upload",
+              "protocol": "{{storageProtocol}}",
+              "host": [
+                "{{storageHost}}"
+              ],
+              "port": "{{storagePort}}",
+              "path": [
+                "upload"
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": [],
+                  "description": "File"
+                }
+              ]
+            },
+            "description": "Upload file."
+          },
+          "event": [],
+          "response": []
+        },
+        {
+          "name": "Download by hash",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessPassword}}",
+                "description": "Bearer token"
+              }
+            ],
+            "url": {
+              "raw": "{{storageProtocol}}://{{storageHost}}:{{storagePort}}/download/{{fileHash}}",
+              "protocol": "{{storageProtocol}}",
+              "host": [
+                "{{storageHost}}"
+              ],
+              "port": "{{storagePort}}",
+              "path": [
+                "download",
+                "{{fileHash}}"
+              ]
+            },
+            "description": "Download by hash."
+          },
+          "response": []
+        },
+        {
+          "name": "Download work file by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{storageProtocol}}://{{storageHost}}:{{storagePort}}/works/{{workId}}/download",
+              "protocol": "{{storageProtocol}}",
+              "host": [
+                "{{storageHost}}"
+              ],
+              "port": "{{storagePort}}",
+              "path": [
+                "works",
+                "{{workId}}",
+                "download"
+              ]
+            },
+            "description": "Download by work ID."
+          },
+          "response": []
+        },
+        {
+          "name": "Health check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{storageProtocol}}://{{storageHost}}:{{storagePort}}/healthcheck",
+              "protocol": "{{storageProtocol}}",
+              "host": [
+                "{{storageHost}}"
+              ],
+              "port": "{{storagePort}}",
+              "path": [
+                "healthcheck"
+              ]
+            },
+            "description": "Healthcheck."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Work Analyzer Service (port 18082)",
+      "description": "Direct service access.",
+      "item": [
+        {
+          "name": "Trigger analysis",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{analyzerProtocol}}://{{analyzerHost}}:{{analyzerPort}}/analyze",
+              "protocol": "{{analyzerProtocol}}",
+              "host": [
+                "{{analyzerHost}}"
+              ],
+              "port": "{{analyzerPort}}",
+              "path": [
+                "analyze"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"work_id\": \"{{workId}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Trigger analysis."
+          },
+          "response": []
+        },
+        {
+          "name": "Health check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{analyzerProtocol}}://{{analyzerHost}}:{{analyzerPort}}/healthcheck",
+              "protocol": "{{analyzerProtocol}}",
+              "host": [
+                "{{analyzerHost}}"
+              ],
+              "port": "{{analyzerPort}}",
+              "path": [
+                "healthcheck"
+              ]
+            },
+            "description": "Healthcheck."
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
