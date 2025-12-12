@@ -1,0 +1,24 @@
+[package]
+name = "work_main_api"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+actix-web.workspace = true
+actix-multipart = "~0.7"
+awc = { version = "~3.8", features = ["rustls-0_23-webpki-roots"] }
+anyhow.workspace = true
+db = { path = "../../common/db" }
+healthcheck = { path = "../../common/healthcheck" }
+logging = { path = "../../common/logging" }
+regex = "~1.12"
+futures-util = { version = "~0.3", default-features = false, features = ["std"] }
+serde_json = "~1.0"
+serde = { version = "~1.0", features = ["derive"] }
+rustls = "0.23"
+rustls-platform-verifier = "0.5"
+tokio = { version = "~1.48", features = ["fs", "time"] }
+tokio-util = { version = "~0.7", features = ["io"] }
+tracing.workspace = true
+tracing-subscriber.workspace = true
+uuid.workspace = true
