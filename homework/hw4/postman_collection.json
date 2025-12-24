@@ -1,0 +1,98 @@
+{
+  "info": {
+    "name": "KPO Payments API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {"key": "baseUrl", "value": "http://localhost"},
+    {"key": "ordersUrl", "value": "http://localhost:8081"},
+    {"key": "paymentsUrl", "value": "http://localhost:8082"},
+    {"key": "user_id", "value": "00000000-0000-0000-0000-000000000001"},
+    {"key": "order_id", "value": "00000000-0000-0000-0000-000000000002"},
+    {"key": "amount_cents", "value": "1000"}
+  ],
+  "item": [
+    {
+      "name": "Health (Gateway)",
+      "request": {
+        "method": "GET",
+        "url": {"raw": "{{baseUrl}}/health", "host": ["{{baseUrl}}"], "path": ["health"]}
+      }
+    },
+    {
+      "name": "Orders / Create",
+      "request": {
+        "method": "POST",
+        "header": [{"key": "Content-Type", "value": "application/json"}],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"user_id\": \"{{user_id}}\",\n  \"amount_cents\": {{amount_cents}},\n  \"description\": \"Test order\"\n}"
+        },
+        "url": {"raw": "{{baseUrl}}/orders", "host": ["{{baseUrl}}"], "path": ["orders"]}
+      }
+    },
+    {
+      "name": "Orders / Get",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/orders/{{order_id}}?user_id={{user_id}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["orders", "{{order_id}}"],
+          "query": [{"key": "user_id", "value": "{{user_id}}"}]
+        }
+      }
+    },
+    {
+      "name": "Orders / List",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/orders?user_id={{user_id}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["orders"],
+          "query": [{"key": "user_id", "value": "{{user_id}}"}]
+        }
+      }
+    },
+    {
+      "name": "Accounts / Create",
+      "request": {
+        "method": "POST",
+        "header": [{"key": "Content-Type", "value": "application/json"}],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"user_id\": \"{{user_id}}\"\n}"
+        },
+        "url": {"raw": "{{baseUrl}}/accounts", "host": ["{{baseUrl}}"], "path": ["accounts"]}
+      }
+    },
+    {
+      "name": "Accounts / Topup",
+      "request": {
+        "method": "POST",
+        "header": [{"key": "Content-Type", "value": "application/json"}],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"amount_cents\": {{amount_cents}}\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/accounts/{{user_id}}/topup",
+          "host": ["{{baseUrl}}"],
+          "path": ["accounts", "{{user_id}}", "topup"]
+        }
+      }
+    },
+    {
+      "name": "Accounts / Get",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/accounts/{{user_id}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["accounts", "{{user_id}}"]
+        }
+      }
+    }
+  ]
+}

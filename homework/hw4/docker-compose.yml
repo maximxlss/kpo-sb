@@ -1,0 +1,78 @@
+services:
+  nginx:
+    image: nginx:1.25-alpine
+    container_name: kpo-nginx
+    ports:
+      - "80:8080"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - orders-service
+      - payments-service
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: kpo-rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  orders-db:
+    image: postgres:16
+    container_name: kpo-orders-db
+    environment:
+      POSTGRES_DB: orders
+      POSTGRES_USER: orders
+      POSTGRES_PASSWORD: orders
+    ports:
+      - "5433:5432"
+    volumes:
+      - orders-db-data:/var/lib/postgresql/data
+
+  payments-db:
+    image: postgres:16
+    container_name: kpo-payments-db
+    environment:
+      POSTGRES_DB: payments
+      POSTGRES_USER: payments
+      POSTGRES_PASSWORD: payments
+    ports:
+      - "5434:5432"
+    volumes:
+      - payments-db-data:/var/lib/postgresql/data
+
+  orders-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: orders-service
+    container_name: kpo-orders-service
+    ports:
+      - "8081:8081"
+    environment:
+      DATABASE_URL: postgres://orders:orders@orders-db:5432/orders
+      AMQP_URL: amqp://rabbitmq:5672
+      HTTP_ADDR: 0.0.0.0:8081
+    depends_on:
+      - orders-db
+      - rabbitmq
+
+  payments-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: payments-service
+    container_name: kpo-payments-service
+    ports:
+      - "8082:8082"
+    environment:
+      DATABASE_URL: postgres://payments:payments@payments-db:5432/payments
+      AMQP_URL: amqp://rabbitmq:5672
+      HTTP_ADDR: 0.0.0.0:8082
+    depends_on:
+      - payments-db
+      - rabbitmq
+
+volumes:
+  orders-db-data:
+  payments-db-data:

@@ -1,0 +1,9 @@
+# Reduce build context size
+/target
+**/target
+/.git
+/.github
+/.idea
+/.vscode
+*.log
+*.tmp
