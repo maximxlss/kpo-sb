@@ -1,0 +1,3 @@
+[workspace]
+members = ["orders-service", "payments-service", "integration_test"]
+resolver = "2"
